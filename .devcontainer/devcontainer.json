@@ -2,34 +2,34 @@
   "name": "LaTeX + Python + Node20 + Gemini (Codespaces)",
   "image": "mcr.microsoft.com/devcontainers/python:3.12-bookworm",
 
+  "features": {
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "20"
+    }
+  },
+
   "containerEnv": {
     "PIP_DISABLE_PIP_VERSION_CHECK": "1"
   },
 
-  "onCreateCommand": "bash -lc \"set -e; echo '== System packages (TeX) =='; sudo apt-get update; sudo apt-get install -y --no-install-recommends texlive-latex-recommended texlive-latex-extra texlive-xetex texlive-fonts-recommended latexmk biber chktex ca-certificates curl git; sudo apt-get clean; sudo rm -rf /var/lib/apt/lists/*; echo '== Python packages =='; python -m pip install --upgrade pip; pip install --no-cache-dir jupyter ipykernel numpy pandas matplotlib requests rich pytest black ruff; echo '== Install nvm + Node 20 =='; export NVM_DIR=\\\"$HOME/.nvm\\\"; if [ ! -s \\\"$NVM_DIR/nvm.sh\\\" ]; then curl -fsSL https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash; fi; . \\\"$NVM_DIR/nvm.sh\\\"; nvm install 20; nvm use 20; npm -v; echo '== Install Gemini CLI =='; npm install -g @google/gemini-cli; gemini --version\"",
-
-  "postStartCommand": "bash -lc \"export NVM_DIR=\\\"$HOME/.nvm\\\"; [ -s \\\"$NVM_DIR/nvm.sh\\\" ] && . \\\"$NVM_DIR/nvm.sh\\\"; nvm use 20 >/dev/null 2>&1 || true\"",
+  "postCreateCommand": "bash -lc \"set -e; echo '== System packages (TeX) =='; sudo apt-get update; sudo apt-get install -y --no-install-recommends texlive-latex-recommended texlive-latex-extra texlive-xetex texlive-fonts-recommended latexmk biber chktex ca-certificates curl git; sudo apt-get clean; sudo rm -rf /var/lib/apt/lists/*; echo '== Python packages =='; python -m pip install --upgrade pip; pip install --no-cache-dir jupyter ipykernel numpy pandas matplotlib requests rich pytest black ruff; echo '== Node =='; node -v; npm -v; npx -v; echo '== Install Gemini CLI =='; npm install -g @google/gemini-cli; gemini --version\"",
 
   "customizations": {
     "vscode": {
       "extensions": [
         "James-Yu.latex-workshop",
-
         "ms-python.python",
         "ms-toolsai.jupyter",
         "charliermarsh.ruff",
         "ms-python.black-formatter",
-
         "esbenp.prettier-vscode",
         "streetsidesoftware.code-spell-checker"
       ],
       "settings": {
-        // ----- LaTeX Workshop -----
         "latex-workshop.view.pdf.viewer": "tab",
         "latex-workshop.view.pdf.internal.synctex.keybinding": "double-click",
         "latex-workshop.synctex.afterBuild.enabled": true,
         "latex-workshop.latex.outDir": "%DIR%/out",
-
         "latex-workshop.latex.tools": [
           {
             "name": "latexmk-xe",
@@ -48,12 +48,8 @@
           { "name": "latexmk (XeLaTeX)", "tools": ["latexmk-xe"] }
         ],
         "latex-workshop.latex.autoBuild.run": "onSave",
-
-        // ----- Python -----
         "editor.formatOnSave": true,
         "ruff.lint.run": "onSave",
-
-        // ----- General editor prefs -----
         "editor.fontSize": 14,
         "editor.tabSize": 2,
         "files.autoSave": "onFocusChange"
