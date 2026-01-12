@@ -1,4 +1,8 @@
 {
   "latex-workshop.view.pdf.viewer": "tab",
-  "latex-workshop.latex.autoBuild.run": "onSave"
+  "latex-workshop.latex.autoBuild.run": "onSave",
+
+  "[latex]": {
+    "editor.formatOnSave": false
+  }
 }
